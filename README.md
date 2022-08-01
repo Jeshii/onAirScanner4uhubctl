@@ -19,7 +19,6 @@ Here we have a script that monitors your mac for an active online meeting.
 ```bash
 ./autorunscript.sh --sleep 1 --location "20-4" --hours 1 --port 3 --verbose
 ```
-You can 
 
 ## uhubctl
 Go visit [uhubctl](https://github.com/mvp/uhubctl) to get that set up. It is needed to turn on and off USB ports. There is also a list of know working USB hubs that support it, but my Dell monitor just happened to work even though it wasn't on the list.

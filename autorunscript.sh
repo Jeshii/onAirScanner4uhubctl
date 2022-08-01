@@ -9,7 +9,7 @@ hours=8 # How many hours to run the script
 
 while [[ "$#" -gt 0 ]]
 do case $1 in
-    -p|--portnumber) portNumber="$2"
+    -p|--port) portNumber="$2"
     shift;;
 	-l|--location) locationCode="$2"
     shift;;

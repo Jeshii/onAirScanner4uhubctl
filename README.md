@@ -15,6 +15,12 @@ Here we have a script that monitors your mac for an active online meeting.
 
 (**When the camera and mic are on!! As in full active participation, not just listing in**) 
 
+**Example**
+```bash
+./autorunscript.sh --sleep 1 --location "20-4" --hours 1 --port 3 --verbose
+```
+You can 
+
 ## uhubctl
 Go visit [uhubctl](https://github.com/mvp/uhubctl) to get that set up. It is needed to turn on and off USB ports. There is also a list of know working USB hubs that support it, but my Dell monitor just happened to work even though it wasn't on the list.
 
@@ -124,20 +130,6 @@ lsof -anP -i4 -sTCP:LISTEN | grep Microsoft | grep 10.0.1.116:'*'
 Microsoft 67439 mvdbent   45u  IPv4 0x647644287bdb076d      0t0  UDP 10.0.1.116:50023
 ```
 This script will look for zoom.us, Microsoft Teams, Cisco WebEx, Slack and FaceTime online sessions.
-Want to have
 
-## Create an Automator app that loops this script.
-
-Now we have a script that scans locally for any running meetings, so we need to create an easy way to start and stop this process.
-
-For this version we will use the **Apple Automator.app** to create an application.
-
-Create a `New Document` and choose type `Application`
-- Add Action `Run Shell Script`
-- Copy the contents of `autorunscript.sh` and paste this into the `Run Shell Script` input field.
-- Add an other Action `Loop`.
-- Change `Ask to continue` to `Loop automatically` and Stop after 480 Minutes (8 hours)
-- Save the Application to your preferred location, you can add this to your `Dock` where you can easy start the App, or add the App to the `Login Items` to open automatically.
-
-If you want to stop/quit the App, in the menubar click on on the spinning gear icon, behind the status, App name (Loop), you can click the X to quit the App.
-
+**Want to Have**
+Tried adding Discord, but it seems sort of not perfect.

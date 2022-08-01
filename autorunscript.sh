@@ -1,14 +1,7 @@
 #!/bin/zsh
 
-# Add hueAPIHash in your macOS Keychain, and add the security binary to "Always allow access by these applications:" list in this entry
-# security add-generic-password -s hueAPIHash -U -w ###################### -T /usr/bin/security
-
 # Global variables
-# Scan your network for your hueBridge ipaddress
-hueBridge=$(curl --silent --fail "https://discovery.meethue.com/" | awk -F '"' "{ print \$8 }")
-hueApiHash=$(security find-generic-password -s "hueAPIHash" -w) #use your service name by [-s "hueAPIHash"]
-hueBaseUrl="http://${hueBridge}/api/${hueApiHash}"
-hueLight="1" #use your light ID that you wanna use
+portNumber="3" #mine was 3
 localIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' | head -1)
 
 
@@ -22,18 +15,14 @@ faceTime=$(lsof -anP -i4 -sTCP:LISTEN | grep avconfere)
 # API Functions
 function turnOff {
 	# Turn Off
-	curl -s -X PUT -H "Content-Type: application/json" -d '{"on":false}' "${hueBaseUrl}/lights/${hueLight}/state"
+	uhubctl -a off -p $portNumber
 }
 
-function TurnOnRed {
-	# Turn on with color Red
-	curl -s -X PUT -H "Content-Type: application/json" -d '{"on":true,"bri":'254',"xy":['0.6984','0.2983']}' "${hueBaseUrl}/lights/${hueLight}/state"
+function turnOn {
+	# Turn on
+	uhubctl -a on -p $portNumber
 }
 
-function TurnOnGreen {
-	# Turn on with color Green
-	curl -s -X PUT -H "Content-Type: application/json" -d '{"on":true,"bri":'254',"xy":['0.2151','0.7106']}' "${hueBaseUrl}/lights/${hueLight}/state"
-}
 
 #########################################################################################
 #########################################################################################
@@ -43,11 +32,10 @@ function TurnOnGreen {
 
 if [[ -n "$zoomMeeting" || -n "$microsoftTeams" || -n "$ciscoWebEX"  || -n "$slack" || -n "$faceTime" ]];then
 	echo "Meeting running"
-	TurnOnRed
+	turnOn
 	else
 	echo "There is no meeting running"
-#	turnOff
-	TurnOnGreen
+	turnOff
 fi
 
 sleep 10

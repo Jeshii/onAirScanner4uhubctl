@@ -80,14 +80,15 @@ while [ $SECONDS -lt $end ]; do
 	if [[ -n "$zoomMeeting" || -n "$microsoftTeams" || -n "$ciscoWebEX"  || -n "$slack" || -n "$faceTime" || -n "$discordMeeting" ]];then
 		if (( ! $usbState )); then
 			turnOn
-			usbState=$(queryState)
 		fi
 	else
 		if (( $usbState )); then
 			turnOff
-			usbState=$(queryState)
 		fi
 	fi
+
+	# Query state for the odd time when the monitor/hub is turned off/on and the new state doesn't match the old state.
+	usbState=$(queryState)
 
 	# Wait for some time before looping
 	sleep $sleepFor

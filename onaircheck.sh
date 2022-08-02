@@ -64,7 +64,7 @@ while [ $SECONDS -lt $end ]; do
 
 	# Verbose output
 	if (( $verbose )); then
-		cHours=$(($SECONDS / (60 ^ 2)))
+		cHours=$(($SECONDS / (60 * 60)))
 		echo "Meeting running"
 		echo "USB State: ${usbState}"
 		echo "Running for ${SECONDS} of ${end} seconds (${cHours} of ${hours} hours)."

@@ -29,7 +29,7 @@ end=$((SECONDS+(hours*60*60)))
 
 # Functions
 function turnOff {
-	# Turn Off
+	# Turn off
 	uhubctl -a off -l $locationCode -p $portNumber
 }
 
@@ -63,10 +63,11 @@ while [ $SECONDS -lt $end ]; do
 	discordMeeting=$(lsof -anP -i4 -sTCP:LISTEN | grep Discord | grep ${localIP}:'*') # Discord meetings seem to stay open for almost a minute after disconnecting, so you may want to keep the sleep value at 60 seconds if you need this
 
 	# Verbose output
-	if [ $verbose = "1" ]; then
+	if (( $verbose )); then
+		cHours=$(($SECONDS / (60 ^ 2)))
 		echo "Meeting running"
 		echo "USB State: ${usbState}"
-		echo "Running for ${SECONDS} of ${end} seconds."
+		echo "Running for ${SECONDS} of ${end} seconds (${cHours} of ${hours} hours)."
 		echo "Zoom Meeting Status: ${zoomMeeting}"
 		echo "Teams Meeting Status: ${microsoftTeams}"
 		echo "WebEX Meeting Status: ${ciscoWebEX}"
@@ -77,12 +78,12 @@ while [ $SECONDS -lt $end ]; do
 
 	# Main check and on/off
 	if [[ -n "$zoomMeeting" || -n "$microsoftTeams" || -n "$ciscoWebEX"  || -n "$slack" || -n "$faceTime" || -n "$discordMeeting" ]];then
-		if [ $usbState = "0" ]; then
+		if (( ! $usbState )); then
 			turnOn
 			usbState=$(queryState)
 		fi
 	else
-		if [ $usbState = "1" ]; then
+		if (( $usbState )); then
 			turnOff
 			usbState=$(queryState)
 		fi

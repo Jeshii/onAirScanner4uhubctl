@@ -94,4 +94,5 @@ while [ $SECONDS -lt $end ]; do
 	sleep $sleepFor
 done
 
-
+# turn the port on at the end of script run since this is probably the default for the port.
+turnOn

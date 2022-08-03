@@ -31,11 +31,13 @@ end=$((SECONDS+(hours*60*60)))
 function turnOff {
 	# Turn off
 	uhubctl -a off -l $locationCode -p $portNumber
+	osascript -e 'display notification "USB Device '$locationCode' Port '$portNumber' turned off." with title "onAirScanner" subtitle "OFF" sound name "Knock"'
 }
 
 function turnOn {
 	# Turn on
 	uhubctl -a on  -l $locationCode -p $portNumber
+	osascript -e 'display notification "USB Device '$locationCode' Port '$portNumber' turned on." with title "onAirScanner" subtitle "ON" sound name "Knock"'
 }
 
 function queryState {
@@ -65,7 +67,8 @@ while [ $SECONDS -lt $end ]; do
 	# Verbose output
 	if (( $verbose )); then
 		cHours=$(($SECONDS / (60 * 60)))
-		echo "Meeting running"
+		echo "Device: ${locationCode}"
+		echo "Port: ${portNumber}"
 		echo "USB State: ${usbState}"
 		echo "Running for ${SECONDS} of ${end} seconds (${cHours} of ${hours} hours)."
 		echo "Zoom Meeting Status: ${zoomMeeting}"

@@ -6,10 +6,11 @@ portNumber=3 # Mine was 3, use uhubcrl to check this number
 locationCode="20-4" # Mine was 20-4, use uhubctl to check this number
 sleepFor=10 # How many seconds sleep before checking for meetings
 hours=8 # How many hours to run the script
+quiet=0 # whether or not to supress notifications
 
 while [[ "$#" -gt 0 ]]
 do case $1 in
-    -p|--port) portNumber="$2"
+	-p|--port) portNumber="$2"
     shift;;
 	-l|--location) locationCode="$2"
     shift;;
@@ -17,7 +18,13 @@ do case $1 in
     shift;;
 	-h|--hours) hours="$2"
     shift;;
+	--help) echo "onAirScanner4uhubctl - https://github.com/Jeshii/onAirScanner4uhubctl
+usage: ./onaircheck.sh [--hours|-h <hours to run>][--location|-l <usb device location from uhubctl>][--port|-p <usb port from uhubctl>][--quiet|-q][--sleep|-s <seconds between USB queries>][--verbose|-v][--help][--version]"
+	exit;;
+	--version) echo "v1.0.0"
+	exit;;
 	-v|--verbose) verbose=1;;
+	-q|--quiet) quiet=1;;
     *) echo "Unknown parameter passed: $1"
     exit 1;;
 esac
@@ -31,13 +38,17 @@ end=$((SECONDS+(hours*60*60)))
 function turnOff {
 	# Turn off
 	uhubctl -a off -l $locationCode -p $portNumber
-	osascript -e 'display notification "USB Device '$locationCode' Port '$portNumber' turned off." with title "onAirScanner" subtitle "OFF" sound name "Knock"'
+	if (( ! $quiet ));then
+		osascript -e 'display notification "USB Device '$locationCode' Port '$portNumber' turned off." with title "onAirScanner" subtitle "OFF" sound name "Knock"'
+	fi
 }
 
 function turnOn {
 	# Turn on
 	uhubctl -a on  -l $locationCode -p $portNumber
-	osascript -e 'display notification "USB Device '$locationCode' Port '$portNumber' turned on." with title "onAirScanner" subtitle "ON" sound name "Knock"'
+	if (( ! $quiet ));then
+		osascript -e 'display notification "USB Device '$locationCode' Port '$portNumber' turned on." with title "onAirScanner" subtitle "ON" sound name "Knock"'
+	fi
 }
 
 function queryState {

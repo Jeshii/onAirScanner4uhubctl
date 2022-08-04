@@ -21,7 +21,7 @@ do case $1 in
 	--help) echo "onAirScanner4uhubctl - https://github.com/Jeshii/onAirScanner4uhubctl
 usage: ./onaircheck.sh [--hours|-h <hours to run>][--location|-l <usb device location from uhubctl>][--port|-p <usb port from uhubctl>][--quiet|-q][--sleep|-s <seconds between USB queries>][--verbose|-v][--help][--version]"
 	exit;;
-	--version) echo "v1.0.1"
+	--version) echo "v1.0.2"
 	exit;;
 	-v|--verbose) verbose=1;;
 	-q|--quiet) quiet=1;;

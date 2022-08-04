@@ -73,7 +73,7 @@ while [ $SECONDS -lt $end ]; do
 	ciscoWebEX=$(lsof -anP -i4 -sTCP:LISTEN | grep Meeting)
 	slack=$(lsof -anP -i4 -sTCP:LISTEN | grep 'Slack*' | grep 'UDP \*')
 	faceTime=$(lsof -anP -i4 -sTCP:LISTEN | grep avconfere | grep ${localIP}:'*')
-	discordMeeting=$(lsof -anP -i4 -sTCP:LISTEN | grep Discord | grep ${localIP}:'*') # Discord meetings seem to stay open for almost a minute after disconnecting, so you may want to keep the sleep value at 60 seconds if you need this
+	discordMeeting=$(lsof -anP -i4 -sTCP:LISTEN | grep Discord | grep 'UDP \*')
 
 	# Verbose output
 	if (( $verbose )); then

@@ -21,7 +21,7 @@ do case $1 in
 	--help) echo "onAirScanner4uhubctl - https://github.com/Jeshii/onAirScanner4uhubctl
 usage: ./onaircheck.sh [--hours|-h <hours to run>][--location|-l <usb device location from uhubctl>][--port|-p <usb port from uhubctl>][--quiet|-q][--sleep|-s <seconds between USB queries>][--verbose|-v][--help][--version]"
 	exit;;
-	--version) echo "v1.0.0"
+	--version) echo "v1.0.1"
 	exit;;
 	-v|--verbose) verbose=1;;
 	-q|--quiet) quiet=1;;
@@ -71,7 +71,7 @@ while [ $SECONDS -lt $end ]; do
 	zoomMeeting=$(lsof -anP -i4 -sTCP:LISTEN | grep zoom.us | grep ${localIP}:'*')
 	microsoftTeams=$(lsof -anP -i4 -sTCP:LISTEN | grep Microsoft | grep ${localIP}:'*')
 	ciscoWebEX=$(lsof -anP -i4 -sTCP:LISTEN | grep Meeting)
-	slack=$(lsof -anP -i4 -sTCP:LISTEN | grep 'Slack*')
+	slack=$(lsof -anP -i4 -sTCP:LISTEN | grep 'Slack*' | grep 'UDP \*')
 	faceTime=$(lsof -anP -i4 -sTCP:LISTEN | grep avconfere | grep ${localIP}:'*')
 	discordMeeting=$(lsof -anP -i4 -sTCP:LISTEN | grep Discord | grep ${localIP}:'*') # Discord meetings seem to stay open for almost a minute after disconnecting, so you may want to keep the sleep value at 60 seconds if you need this
 

@@ -2,7 +2,7 @@
 
 # Global variables
 verbose=0 # Whether or not to print out the varible values each cycle
-portNumber=3 # Mine was 3, use uhubcrl to check this number
+portNumber="3" # Mine was 3, use uhubcrl to check this number
 locationCode="20-4" # Mine was 20-4, use uhubctl to check this number
 sleepFor=10 # How many seconds sleep before checking for meetings
 hours=8 # How many hours to run the script
@@ -21,7 +21,7 @@ do case $1 in
 	--help) echo "onAirScanner4uhubctl - https://github.com/Jeshii/onAirScanner4uhubctl
 usage: ./onaircheck.sh [--hours|-h <hours to run>][--location|-l <usb device location from uhubctl>][--port|-p <usb port from uhubctl>][--quiet|-q][--sleep|-s <seconds between USB queries>][--verbose|-v][--help][--version]"
 	exit;;
-	--version) echo "v1.0.2"
+	--version) echo "v1.0.3"
 	exit;;
 	-v|--verbose) verbose=1;;
 	-q|--quiet) quiet=1;;
@@ -53,7 +53,7 @@ function turnOn {
 
 function queryState {
 	# check state
-	echo "$(uhubctl | grep "Port 3" | awk '{print substr($3,2,1)}')"
+	echo "$(uhubctl -l "$locationCode" | grep "Port ${portNumber}" | awk '{print substr($3,2,1)}')"
 }
 
 #########################################################################################
